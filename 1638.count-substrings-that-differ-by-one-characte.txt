@@ -1,0 +1,82 @@
+
+//solution01
+class Solution {
+    public int countSubstrings(String s, String t) {
+       
+        int sLength = s.length();
+        int tLength = t.length();
+       
+        int[][] leftCount = new int[sLength+2][tLength+2];
+        int[][] rightCount = new int[sLength+2][tLength+2];
+       
+       
+        for(int i = 1; i <= sLength ; i++) {
+            for(int j = 1; j <= tLength ; j++) {
+                 if(s.charAt(i-1) == t.charAt(j-1)) {
+                   leftCount[i][j] = 1 +  leftCount[i-1][j-1];    
+                 }
+            }
+        }
+       
+        for(int i = sLength; i > 0 ; i--) {
+            for(int j = tLength; j > 0 ; j--) {
+                 if(s.charAt(i-1) == t.charAt(j-1)) {
+                   rightCount[i][j] = 1 + rightCount[i+1][j+1];    
+                 }
+            }
+           
+        }
+       
+        int count = 0;
+       
+        for(int i = 1; i <= sLength ; i++) {
+            for(int j = 1; j <= tLength ; j++) {
+                 if(s.charAt(i-1) != t.charAt(j-1)) {
+                   count = count + 1 + rightCount[i+1][j+1] + leftCount[i-1][j-1] + (leftCount[i-1][j-1] * rightCount[i+1][j+1]);
+                 }
+            }
+        }
+       
+       
+        return count;
+       
+    }
+}
+
+
+//solution02
+class Solution {
+    public int countSubstrings(String s, String t) {
+     
+        int output = 0;
+        
+        for (int i=0; i < s.length(); i ++) {
+            for (int j=0; j < t.length(); j++) {
+                
+                int diffCount = 0;
+                
+                for(int k=0; k+j<t.length(); k ++) {
+                    if(k+i >= s.length()) {
+                        break;
+                    }
+                    
+                    if (t.charAt(k+j) != s.charAt(k+i)) {
+                        diffCount++;
+                    }
+                    
+                    if(diffCount == 1) {
+                        output++;
+                    }
+                    
+                    if(diffCount >= 2) {
+                        break;
+                    }
+                }
+                
+            }
+        }
+        
+        return output;
+        
+    }
+}
