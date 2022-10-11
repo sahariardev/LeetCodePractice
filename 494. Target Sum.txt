@@ -1,0 +1,27 @@
+class Solution {
+    public int findTargetSumWays(int[] nums, int target) {
+        return count(nums, 0, target);
+    }
+
+    public int count(int nums[], int index, int target) {
+       if(index == nums.length - 1) {
+           int countSum = 0; 
+
+           if(nums[index] == target) {
+               countSum++;
+           }
+
+           if(nums[index] == -target) {
+                countSum++;
+           }
+
+           return countSum;
+       }
+
+       if(index >= nums.length) {
+           return 0;
+       }
+
+       return count(nums, index + 1, target - nums[index]) + count(nums, index + 1, target + nums[index]);
+    }
+}
