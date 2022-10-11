@@ -1,0 +1,46 @@
+class Solution {
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+       int[] memo = new int[arr.length]; 
+        
+       return findMax(arr, k, 0, memo);
+    }
+    
+    public int findMax(int[] arr, int k, int startIndex, int[] memo) {
+        
+        if(startIndex >= arr.length) {
+            return 0;
+        }
+        
+        if(memo[startIndex] != 0) {
+            return memo[startIndex];
+        }
+        
+        int max = Integer.MIN_VALUE;
+        
+        
+        for(int i = 0; i < k && (startIndex + i < arr.length); i++) {
+            int value = findMax(arr, k , startIndex + i + 1, memo) + (i + 1) * maxValue(arr, startIndex, startIndex + i);
+            
+            if(value > max) {
+                max = value;
+            }
+        }
+        
+        memo[startIndex] = max;
+        return max;
+    }
+    
+    public int maxValue(int[] arr, int startIndex, int endIndex) {
+        
+        int max = Integer.MIN_VALUE;
+        
+        for(int i=startIndex; i<=endIndex; i++) {
+            
+            if(arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        
+        return max;
+    }
+}
