@@ -1,0 +1,39 @@
+class Solution {
+    public int numTeams(int[] rating) {
+        int leftSmall[] = new int [rating.length];
+        int leftBig[] = new int [rating.length];
+        int rightSmall[] = new int [rating.length];
+        int rightBig[] = new int [rating.length];
+        
+        
+        for (int i = 0; i< rating.length; i++) {
+            
+            for(int j = 0; j< i; j++) {
+                if(rating[j] > rating[i]) {
+                    leftBig[i]++;
+                } else {
+                    leftSmall[i]++;
+                }
+            }
+            
+            
+            for(int j = i+1; j< rating.length; j++) {
+                if(rating[j] > rating[i]) {
+                    rightBig[i]++;
+                } else {
+                    rightSmall[i]++;
+                }
+            }
+        }
+        
+        int count = 0;
+        
+        for (int i = 0; i < rating.length; i++) {
+         
+            count = count + (leftSmall[i] * rightBig[i]) + (leftBig[i] * rightSmall[i]);
+        }
+            
+        return count;
+            
+    }
+}
